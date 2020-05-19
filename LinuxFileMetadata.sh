@@ -9,7 +9,7 @@ convert_time(){
 
 
 # search for paths
-LIST_FILES=$(find "/" 2> /dev/null ) 
+LIST_FILES=$(find "/" -regextype posix-extended -regex "/(sys|srv|proc|dev)" -prune -o -type d 2> /dev/null ) 
 
 # copy all files to the ./output folder
 IFS=$'\n'       # make newlines the only separator
@@ -24,5 +24,5 @@ do
 	FILE_SIZE=$(stat "$f" -c %s)
 	FILE_OWNER=$(stat "$f" -c %U)
 
-	echo "$FILENAME,$MD5SUM,$FILE_SIZE,$CREATED_DATE,$MODIFIED_DATE,$LAST_ACCESS,$FILE_OWNER,$FILE_TYPE" >> file_metadata.csv
+	echo "$FILENAME,$MD5SUM,$FILE_SIZE,$CREATED_DATE,$MODIFIED_DATE,$LAST_ACCESS,$FILE_OWNER,$FILE_TYPE" 
 done
